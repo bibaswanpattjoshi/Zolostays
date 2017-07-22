@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Zolostays</string>
+
+
+
+
+
+    <string name="error_valid_credential">Please enter a valid credential</string>
+    <string name="success_message">User added successfully</string>
+    <string name="enter_mail">Please enter your email</string>
+    <string name="enter_password">Please enter your password</string>
+    <string name="enter_name">Please enter your name</string>
+    <string name="enter_number">Please enter your number</string>
+    <string name="otp_check">OTP has been sent to concerned mobile number</string>
+
+    <string name="error_email_exists">User already exist</string>
+</resources>
