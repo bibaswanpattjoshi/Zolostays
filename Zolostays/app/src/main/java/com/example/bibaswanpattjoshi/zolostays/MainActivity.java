@@ -8,10 +8,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.bibaswanpattjoshi.zolostays.db.ActivityComponent;
+import com.example.bibaswanpattjoshi.zolostays.db.ActivityModule;
 import com.example.bibaswanpattjoshi.zolostays.db.DBHelper;
+import com.example.bibaswanpattjoshi.zolostays.db.DataManger;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dagger.internal.DaggerCollections;
+
 
 public class MainActivity extends AppCompatActivity {
   @BindView(R.id.phone_number_e_txt)
@@ -22,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private DBHelper databaseHelper;
+    private ActivityComponent activityComponent;
+    @Inject
+    DataManger.DataManager mDataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +40,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initDBObject();
+        getActivityComponent().inject(this);
 
+    }
+
+    public ActivityComponent getActivityComponent() {
+
+        if (activityComponent == null) {
+            activityComponent = DaggerActivityComponent.builder()
+                    .activityModule(new ActivityModule(this))
+                    .applicationComponent(ZoloApplication.get(this).getComponent())
+                    .build();
+        }
+        return activityComponent;
     }
 
     private void initDBObject() {

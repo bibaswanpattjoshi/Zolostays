@@ -10,10 +10,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * Created by Ronit Pattjoshi on 23-07-2017.
  */
 
+@Singleton
 public class DBHelper extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -42,6 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // drop table sql query
     private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_USER;
+    @Inject
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -61,7 +66,8 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void addUser(UserModel user) {
+    public Long addUser(UserModel user) {
+        try {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -72,8 +78,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
 
         // Inserting Row
-        db.insert(TABLE_USER, null, values);
-        db.close();
+        return db.insert(TABLE_USER, null, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
     }
 
 
